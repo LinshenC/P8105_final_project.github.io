@@ -1,0 +1,19 @@
+---
+title: "Evaluation of Wine from Multiple Perspectives"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+<img src="images/wine.jpg">
+
+
+# Collaborators
+Wenyu Zhang (wz2675)  
+
+Wenwen Li (wl2926)  
+
+Siyan Wen (sw3866)  
+
+Linshen Cai (lc3807)  
+

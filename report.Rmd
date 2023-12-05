@@ -1,0 +1,50 @@
+---
+title: "Report: Evaluation of Wine from Multiple Perspectives"
+---
+
+
+## Group Members:
+Wenyu Zhang (wz2675)
+Wenwen Li (wl2926)
+Siyan Wen (sw3866)
+Linshen Cai (lc3807)
+
+
+## Motivation 
+Vivino.com is a popular website for wine lovers to buy quality wine. Also, Vivino.com's information on wine varietals, pricing, and ratings based on tasters offers a rare chance to investigate the complex relationship between wine attributes and consumer views. Then we found a dataset scraped from Vivino.com. Motivated by a common love of wine among our enthusiast community, we want to explore the connection between wine costs and characteristics of grape varietals, origin areas, and overall scores. In order to shed light on the variables that affect how valuable and high-quality wines are viewed, this study looks for possible trends, preferences, and subtleties in the wine industry. With this study, we hope to:
+Examine the relationship between wine prices and the kind of grapes included in the dataset.
+Investigate the ways in which the location of wines affects their cost and rating.
+To investigate if higher-rated wines often fetch higher prices and the overall effect of wine ratings on their market worth.
+
+
+## Related work
+When seeking a wine of excellent quality and taste, we, as four wine enthusiasts, often rely on certain websites as points of reference. One such website we may select for this purpose is Wine Spectator (https://www.winespectator.com/dailypicks). This website provides valuable information regarding the ranking, flavor profile, and rating of various wines. Nonetheless, it is essential to acknowledge that these comments may not always be entirely accurate. As enthusiasts of wine, we have chosen to conduct a date driven analysis to gain our perspective when making wine selections. This website also inspired us to make a similar wine evaluation website based on the data we have to help more people while selecting the perfect wine.
+Initial questions
+Highest Rated Wines Across Categories: Which type of wine, among the five major categories you're considering, has the highest overall ratings? Which year produces the most welcoming (higher rating) wine within five different categories? 
+
+Most Welcoming Wine Valleys: Which wine valley is known for producing the most welcoming wines? 
+
+Regions with Expensive Wines: Which country produces the most expensive wines? 
+Within countries, which regions produce the most expensive wines? 
+
+Price Analysis by Category in a Specific Region: How do wine prices vary within the five categories in a particular region? What is the associated visualization of the data for the distribution of the prices varies within regions?
+
+Relationship Between Ratings and Prices: What is the probable statistical analysis to explore the correlation between wine ratings and their prices? Whether the relationship follows a simple linear regression model or a more complex multiple linear regression model.
+
+The nature of the relationship: Whether it is positive (higher prices are associated with higher ratings) or negative (higher prices do not necessarily mean higher ratings).
+
+
+## Data
+Merging the data
+When attempting to merge the four datasets, we encountered an initial divergence in our approach. We employed two distinct methods to bind the datasets: one involved using a left join, while the other entailed combining the data using the map function. Both methods successfully merged the four datasets into a comprehensive dataset encompassing four wine categories. However, during our utilization of the left join method, we encountered issues such as the omission of category names and the development of complex code. Consequently, we concluded that employing the “map” function would be a more suitable approach for consolidating all the data.
+
+## Exploratory analysis
+
+
+## Additional analysis
+
+## Discussion
+
+
+
+
