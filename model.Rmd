@@ -1,9 +1,68 @@
 ---
-title: "Report"
+title: "Statistical Model Analysis"
+output:
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_float: true
 ---
 
-### About this site
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
 
-Sometimes you need to say a bit about the site -- how it was made, where it's hosted, where the source code can be found. 
+```{r setup, include=FALSE}
+library(tidyverse)
+library(plotly)
 
-If this is for a project or analysis, I recommend giving some details about the R package versions that you used to create the content.
+wine_rating = read_csv("./wine_rating.csv")
+```
+
+## Log transformed price verses rating
+```{r}
+ggplot_rp_tf = wine_rating |> 
+  ggplot(aes(x = log(price), y = rating, color = year)) +
+  geom_point()
+ggplotly(ggplot_rp_tf)
+```
+
+Already examined the linear relationship scatter plot of the wine rating verses wine price, we noticed that it's hardly to be described as a linear relationship based on the distribution of the points. So, we performed logarithm transformation to the price variable and plotted a scatter plot again. The result is somehow more satisfied compared with previous result. The point are more clustered and formed a positive-linear liked relation. To perform more accurate linear model, we thought other variables might also get involved in this regression model. It is more likely to be a multiple expanded linear regression.
+
+## Fitting linear model to rating, price, and year(residual plot)
+```{r}
+lm_rp = lm(rating ~ log(price) + year, data = wine_rating)
+
+broom::tidy(lm_rp) |> 
+  knitr::kable(digits = 3) |> 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"), font_size = 12) |> 
+  kableExtra::scroll_box(width = "100%", height = "300px")
+```
+
+With the thoughts in mind, we performed the MLR with wine rating, log transformed wine price, and corresponding year of the wine production. The result are shown in the above table. Things are getting a little bit tricky. We noticed that `p.value` of log transformed price is nearly zero, meaning there is strong linear relation between it and the dependent variable. But, most of the years have a `p.value` that is much greater than the significant level. More justification method are needed to help provide the evidence to judge the true relation between year and rating. So, we plotted a residual plot for this linear regression model.
+
+```{r}
+resid_rp = wine_rating |> 
+  modelr::add_residuals(lm_rp) |> 
+  ggplot(aes(x = log(price), y = resid)) + geom_point()
+ggplotly(resid_rp)
+```
+
+From the plot, it's pretty obvious that the dataset needs more improvement for the model to fit better since all the point are not evenly spread acorss the axis. They are more condensed as the log transformed price increases. But, with such results, we cannot make absolute decision about the model we built is false one. To further test our model, we performed a simulation.
+
+## Performing Bootstrap for above model for further test
+```{r}
+bootstrap_rp = wine_rating |> 
+  modelr::bootstrap(n = 1000) |> 
+  mutate(
+    models = map(strap, \(df) lm(rating ~ log(price) + year, data = df)),
+    results = map(models, broom::tidy)) |> 
+  select(results) |> 
+  unnest(results) |> 
+  filter(term == "log(price)") |> 
+  ggplot(aes(x = estimate)) + geom_density()
+ggplotly(bootstrap_rp)
+```
+
+From the above bootstrap model, we obtained a perfect normal distribution of our frequencies of estimation. This helps proved that somehow our model is accurate for no extreme outliers or other strange data points occurred. Also, the distribution of density curve is surprisingly normal distributed, with no skewness and shoulders. This provide positive evidence for our linear regression model. Still, more tests are needed for the model to be exactly accurate. 

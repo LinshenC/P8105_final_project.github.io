@@ -1,9 +1,5 @@
 ---
 title: "Evaluation of Wine from Multiple Perspectives"
-output: 
-  html_document:
-    toc: true
-    toc_float: true
 ---
 <img src="images/wine.jpg">
 

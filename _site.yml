@@ -1,4 +1,4 @@
-name: "Yay internet!"
+name: "P8105 Final Project"
 output_dir: "."
 navbar:
   title: "Home"
@@ -8,15 +8,20 @@ navbar:
   right:
     - text: "About"
       href: about.html
-    - text: "Data"
+    - text: "Data Source"
       href: data.html
-    - text: "EDA"
-      href: eda.html
-    - text: "Model Fitted"
-      href: model.html
-    - text: "Conclusion"
+    - text: "Analysis"
+      menu:
+        - text: "Visualizations: Part I"
+          href: eda1.html
+        - text: "Visualizations: Part II"
+          href: eda.html
+        - text: "Statistical Model Analysis"
+          href: model.html
+    - text: "Discussion"
       href: conclusion.html
     - icon: fa-envelope fa-lg
+      href: mailto:<wz2675@cumc.columbia.edu>
     - icon: fa-github fa-lg
       href: http://github.com/LinshenC/
 output:

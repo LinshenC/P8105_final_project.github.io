@@ -11,7 +11,7 @@
 
 
 
-<title>Data Cleaning</title>
+<title>Data Source</title>
 
 <script src="site_libs/header-attrs-2.24/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -30,8 +30,11 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
 
@@ -218,6 +221,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -253,19 +259,31 @@ $(document).ready(function () {
   <a href="about.html">About</a>
 </li>
 <li>
-  <a href="data.html">Data</a>
+  <a href="data.html">Data Source</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="eda1.html">Visualizations: Part I</a>
+    </li>
+    <li>
+      <a href="eda.html">Visualizations: Part II</a>
+    </li>
+    <li>
+      <a href="model.html">Statistical Model Analysis</a>
+    </li>
+  </ul>
 </li>
 <li>
-  <a href="eda.html">EDA</a>
+  <a href="conclusion.html">Discussion</a>
 </li>
 <li>
-  <a href="model.html">Model Fitted</a>
-</li>
-<li>
-  <a href="conclusion.html">Conclusion</a>
-</li>
-<li>
-  <a>
+  <a href="mailto:&lt;wz2675@cumc.columbia.edu&gt;">
     <span class="fa fa-envelope fa-lg"></span>
      
   </a>
@@ -283,15 +301,337 @@ $(document).ready(function () {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
-<h1 class="title toc-ignore">Data Cleaning</h1>
+
+<h1 class="title toc-ignore">Data Source</h1>
 
 </div>
 
 
-<div id="clean-and-merge-the-data" class="section level2">
-<h2>Clean and merge the data</h2>
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+<p>We got our source data from <a
+href="https://www.kaggle.com/datasets/budnyak/wine-rating-and-price/code"
+class="uri">https://www.kaggle.com/datasets/budnyak/wine-rating-and-price/code</a>.
+Orginally, the source data contains five individual csv files, including
+<code>Red.csv</code>, <code>Rose.csv</code>, <code>Sparkling.csv</code>,
+<code>Varieties.csv</code>, <code>White.csv</code>. An example dataset
+<code>Red.csv</code> are loaded below for indication. We filtered out
+Vairetis.csv because the content is not consistent with the other files.
+We found that the remaining files have the same variables,so our goal is
+to merge them into one dataset.</p>
+<pre class="r"><code>head(red, 10) |&gt; 
+  knitr::kable(digits = 3) |&gt; 
+  kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;), font_size = 12) |&gt; 
+  kableExtra::scroll_box(width = &quot;100%&quot;, height = &quot;300px&quot;)</code></pre>
+<div
+style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; ">
+<table class="table table-striped table-hover" style="font-size: 12px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Name
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Country
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Region
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Winery
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Rating
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+NumberOfRatings
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Price
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Year
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Pomerol 2011
+</td>
+<td style="text-align:left;">
+France
+</td>
+<td style="text-align:left;">
+Pomerol
+</td>
+<td style="text-align:left;">
+Château La Providence
+</td>
+<td style="text-align:right;">
+4.2
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+95.00
+</td>
+<td style="text-align:left;">
+2011
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lirac 2017
+</td>
+<td style="text-align:left;">
+France
+</td>
+<td style="text-align:left;">
+Lirac
+</td>
+<td style="text-align:left;">
+Château Mont-Redon
+</td>
+<td style="text-align:right;">
+4.3
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+15.50
+</td>
+<td style="text-align:left;">
+2017
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Erta e China Rosso di Toscana 2015
+</td>
+<td style="text-align:left;">
+Italy
+</td>
+<td style="text-align:left;">
+Toscana
+</td>
+<td style="text-align:left;">
+Renzo Masi
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+7.45
+</td>
+<td style="text-align:left;">
+2015
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bardolino 2019
+</td>
+<td style="text-align:left;">
+Italy
+</td>
+<td style="text-align:left;">
+Bardolino
+</td>
+<td style="text-align:left;">
+Cavalchina
+</td>
+<td style="text-align:right;">
+3.5
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+8.72
+</td>
+<td style="text-align:left;">
+2019
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ried Scheibner Pinot Noir 2016
+</td>
+<td style="text-align:left;">
+Austria
+</td>
+<td style="text-align:left;">
+Carnuntum
+</td>
+<td style="text-align:left;">
+Markowitsch
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+29.15
+</td>
+<td style="text-align:left;">
+2016
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Gigondas (Nobles Terrasses) 2017
+</td>
+<td style="text-align:left;">
+France
+</td>
+<td style="text-align:left;">
+Gigondas
+</td>
+<td style="text-align:left;">
+Vieux Clocher
+</td>
+<td style="text-align:right;">
+3.7
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+19.90
+</td>
+<td style="text-align:left;">
+2017
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Marion’s Vineyard Pinot Noir 2016
+</td>
+<td style="text-align:left;">
+New Zealand
+</td>
+<td style="text-align:left;">
+Wairarapa
+</td>
+<td style="text-align:left;">
+Schubert
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+43.87
+</td>
+<td style="text-align:left;">
+2016
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Red Blend 2014
+</td>
+<td style="text-align:left;">
+Chile
+</td>
+<td style="text-align:left;">
+Itata Valley
+</td>
+<td style="text-align:left;">
+Viña La Causa
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+17.52
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chianti 2015
+</td>
+<td style="text-align:left;">
+Italy
+</td>
+<td style="text-align:left;">
+Chianti
+</td>
+<td style="text-align:left;">
+Castello Montaùto
+</td>
+<td style="text-align:right;">
+3.6
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+10.75
+</td>
+<td style="text-align:left;">
+2015
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Tradition 2014
+</td>
+<td style="text-align:left;">
+France
+</td>
+<td style="text-align:left;">
+Minervois
+</td>
+<td style="text-align:left;">
+Domaine des Aires Hautes
+</td>
+<td style="text-align:right;">
+3.5
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+6.90
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="data-cleaning" class="section level2">
+<h2>Data Cleaning</h2>
 <pre class="r"><code>categories = list.files(path = &quot;./data&quot;, full.names = TRUE)
 files_data = map(categories, read_csv)
 nested_file = tibble(categories, files_data)
@@ -301,23 +641,365 @@ wine_rating =
   janitor::clean_names() |&gt; 
   mutate(categories = str_extract(categories, &quot;[A-Z][a-z]+&quot;)) |&gt; 
   select(-variety)
-write_csv(wine_rating, file = &quot;wine_rating.csv&quot;)
-
-wine_rating
-## # A tibble: 15,346 × 9
-##    categories name    country region winery rating number_of_ratings price year 
-##    &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;dbl&gt;             &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;
-##  1 Red        Pomero… France  Pomer… Châte…    4.2               100 95    2011 
-##  2 Red        Lirac … France  Lirac  Châte…    4.3               100 15.5  2017 
-##  3 Red        Erta e… Italy   Tosca… Renzo…    3.9               100  7.45 2015 
-##  4 Red        Bardol… Italy   Bardo… Caval…    3.5               100  8.72 2019 
-##  5 Red        Ried S… Austria Carnu… Marko…    3.9               100 29.2  2016 
-##  6 Red        Gigond… France  Gigon… Vieux…    3.7               100 19.9  2017 
-##  7 Red        Marion… New Ze… Waira… Schub…    4                 100 43.9  2016 
-##  8 Red        Red Bl… Chile   Itata… Viña …    3.9               100 17.5  2014 
-##  9 Red        Chiant… Italy   Chian… Caste…    3.6               100 10.8  2015 
-## 10 Red        Tradit… France  Miner… Domai…    3.5               100  6.9  2014 
-## # ℹ 15,336 more rows</code></pre>
+write_csv(wine_rating, file = &quot;wine_rating.csv&quot;)</code></pre>
+<p>When attempting to merge the four datasets, we encountered an initial
+divergence in our approach. We employed two distinct methods to bind the
+datasets: one involved using a left join, while the other entailed
+combining the data using the <code>map</code> function. Both methods
+successfully merged the four datasets into a comprehensive dataset
+encompassing four wine categories. However, during our utilization of
+the left join method, we encountered issues such as the omission of
+category names and the development of complex code. Consequently, we
+concluded that employing the <code>map</code> function would be a more
+suitable approach for consolidating all the data.</p>
+<pre class="r"><code>head(wine_rating, 10) |&gt; 
+  knitr::kable(digits = 3) |&gt; 
+  kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;), font_size = 12) |&gt; 
+  kableExtra::scroll_box(width = &quot;100%&quot;, height = &quot;300px&quot;)</code></pre>
+<div
+style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; ">
+<table class="table table-striped table-hover" style="font-size: 12px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+categories
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+name
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+country
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+region
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+winery
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+rating
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+number_of_ratings
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+price
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+year
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Red
+</td>
+<td style="text-align:left;">
+Pomerol 2011
+</td>
+<td style="text-align:left;">
+France
+</td>
+<td style="text-align:left;">
+Pomerol
+</td>
+<td style="text-align:left;">
+Château La Providence
+</td>
+<td style="text-align:right;">
+4.2
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+95.00
+</td>
+<td style="text-align:left;">
+2011
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Red
+</td>
+<td style="text-align:left;">
+Lirac 2017
+</td>
+<td style="text-align:left;">
+France
+</td>
+<td style="text-align:left;">
+Lirac
+</td>
+<td style="text-align:left;">
+Château Mont-Redon
+</td>
+<td style="text-align:right;">
+4.3
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+15.50
+</td>
+<td style="text-align:left;">
+2017
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Red
+</td>
+<td style="text-align:left;">
+Erta e China Rosso di Toscana 2015
+</td>
+<td style="text-align:left;">
+Italy
+</td>
+<td style="text-align:left;">
+Toscana
+</td>
+<td style="text-align:left;">
+Renzo Masi
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+7.45
+</td>
+<td style="text-align:left;">
+2015
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Red
+</td>
+<td style="text-align:left;">
+Bardolino 2019
+</td>
+<td style="text-align:left;">
+Italy
+</td>
+<td style="text-align:left;">
+Bardolino
+</td>
+<td style="text-align:left;">
+Cavalchina
+</td>
+<td style="text-align:right;">
+3.5
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+8.72
+</td>
+<td style="text-align:left;">
+2019
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Red
+</td>
+<td style="text-align:left;">
+Ried Scheibner Pinot Noir 2016
+</td>
+<td style="text-align:left;">
+Austria
+</td>
+<td style="text-align:left;">
+Carnuntum
+</td>
+<td style="text-align:left;">
+Markowitsch
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+29.15
+</td>
+<td style="text-align:left;">
+2016
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Red
+</td>
+<td style="text-align:left;">
+Gigondas (Nobles Terrasses) 2017
+</td>
+<td style="text-align:left;">
+France
+</td>
+<td style="text-align:left;">
+Gigondas
+</td>
+<td style="text-align:left;">
+Vieux Clocher
+</td>
+<td style="text-align:right;">
+3.7
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+19.90
+</td>
+<td style="text-align:left;">
+2017
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Red
+</td>
+<td style="text-align:left;">
+Marion’s Vineyard Pinot Noir 2016
+</td>
+<td style="text-align:left;">
+New Zealand
+</td>
+<td style="text-align:left;">
+Wairarapa
+</td>
+<td style="text-align:left;">
+Schubert
+</td>
+<td style="text-align:right;">
+4.0
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+43.87
+</td>
+<td style="text-align:left;">
+2016
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Red
+</td>
+<td style="text-align:left;">
+Red Blend 2014
+</td>
+<td style="text-align:left;">
+Chile
+</td>
+<td style="text-align:left;">
+Itata Valley
+</td>
+<td style="text-align:left;">
+Viña La Causa
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+17.52
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Red
+</td>
+<td style="text-align:left;">
+Chianti 2015
+</td>
+<td style="text-align:left;">
+Italy
+</td>
+<td style="text-align:left;">
+Chianti
+</td>
+<td style="text-align:left;">
+Castello Montaùto
+</td>
+<td style="text-align:right;">
+3.6
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+10.75
+</td>
+<td style="text-align:left;">
+2015
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Red
+</td>
+<td style="text-align:left;">
+Tradition 2014
+</td>
+<td style="text-align:left;">
+France
+</td>
+<td style="text-align:left;">
+Minervois
+</td>
+<td style="text-align:left;">
+Domaine des Aires Hautes
+</td>
+<td style="text-align:right;">
+3.5
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+6.90
+</td>
+<td style="text-align:left;">
+2014
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The resulting <strong><code>wine_rating</code></strong> datasets has
+<strong>15346</strong> rows and <strong>9</strong> columns. There are a
+total of <strong>9</strong> variables. The description is listed
+below:</p>
+<ul>
+<li><p><code>categories</code>: Four types of the wine</p></li>
+<li><p><code>name</code>: Name of each wine</p></li>
+<li><p><code>country</code>: Production country of the wine</p></li>
+<li><p><code>region</code>: Production place of the wine</p></li>
+<li><p><code>winery</code>: The production winery or vineyards</p></li>
+<li><p><code>rating</code>: The score each wine got from
+consumer</p></li>
+<li><p><code>number_of_ratings</code>: Quantity of rating</p></li>
+<li><p><code>price</code>: The selling price of each wine</p></li>
+<li><p><code>year</code>: Production year</p></li>
+</ul>
 </div>
 
 
@@ -353,6 +1035,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

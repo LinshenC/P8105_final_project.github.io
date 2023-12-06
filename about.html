@@ -253,19 +253,28 @@ $(document).ready(function () {
   <a href="about.html">About</a>
 </li>
 <li>
-  <a href="data.html">Data</a>
+  <a href="data.html">Data Source</a>
 </li>
-<li>
-  <a href="eda.html">EDA</a>
-</li>
-<li>
-  <a href="model.html">Model Fitted</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="eda.html">Visualizations</a>
+    </li>
+    <li>
+      <a href="model.html">Statistical Model Analysis</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="conclusion.html">Conclusion</a>
 </li>
 <li>
-  <a>
+  <a href="mailto:&lt;wz2675@cumc.columbia.edu&gt;">
     <span class="fa fa-envelope fa-lg"></span>
      
   </a>
@@ -290,13 +299,7 @@ $(document).ready(function () {
 </div>
 
 
-<div id="about-this-site" class="section level3">
-<h3>About this site</h3>
-<p>Sometimes you need to say a bit about the site – how it was made,
-where it’s hosted, where the source code can be found.</p>
-<p>If this is for a project or analysis, I recommend giving some details
-about the R package versions that you used to create the content.</p>
-</div>
+
 
 
 
