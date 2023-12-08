@@ -4,6 +4,16 @@ title: "Report"
 
 ### About this site
 
-Sometimes you need to say a bit about the site -- how it was made, where it's hosted, where the source code can be found. 
+### Price , rating VS wine type (Categories)
 
-If this is for a project or analysis, I recommend giving some details about the R package versions that you used to create the content.
+First, we analyzed the relationship between price, rating and wine type. We wanna see if price and rating related different wine type. From the rating box-lot, people believe red and sparkling wines to be of greater quality. This perception may be influenced by the way the wines are made, how the market is regarded, or by other elements that are hidden from view in the plots. Additionally, if you'd like to sample some premium alternatives, red wines will the best options. Value-conscious consumers may go toward red or rosé wines, which provide more reasonably priced selections with a greater variety of ratings. 
+
+Based on the analysis of the relationship between ratings and regions, we found that for each region, regardless of the price, there are wines with high ratings. However, the overall trend of ratings shows that wines with high ratings are mainly distributed in Italy and the United States. The proportion of high-rated wines is somewhat larger in Italy. Among them, the Italian winery Bolgheri Sassicaia is also shown in the bubble graph as having the highest prices and ratings. In the United States, the areas with higher ratings are consistent with our findings, mainly located in Napa Valley, Napa County, California. In summary, the relationship between ratings and regions is evident in specific areas, but due to each person’s unique criteria for judging wines, every region has wines that are highly rated.
+
+### Price versus regions
+In terms of the relationship between price and region, the UK has the most expensive average wine prices, while Mexico tends to offer more budget-friendly options. At the regional level, France, Italy, and the US stand out as the most expensive regions for wine production. For customers choosing wines from the world's priciest regions, France proves to be an excellent option, boasting the highest number of expensive wine-producing areas. On the winery level, Pétrus, based in France, takes the lead as the most expensive. Within the US, wine prices generally fall within the range of 0 to 20, making them reasonably affordable for the majority of consumers.
+
+## Limitation, Insight, Further Improvements
+The dataset has a small scale after we filtered out some data under conditions. For example, while we do the analysis for the top 10 expensive countries for wine and the most welcoming wine, the sample size of qualified data is small, which may lead to the bias.
+Customer Selection: Value-conscious consumers may go toward red or rosé wines, which provide more reasonably priced selections with a greater variety of ratings.
+Perception of Quality: According to the ratings, people believe red and sparkling wines to be of greater quality. This perception may be influenced by the way the wines are made, how the market is regarded, or by other elements that are hidden from view in the plots. Additionally, if you'd like to sample some premium alternatives, red wines will the best options.
