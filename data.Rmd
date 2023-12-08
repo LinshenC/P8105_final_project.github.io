@@ -1,0 +1,89 @@
+---
+title: "Data Source"
+output:
+  html_document:
+    code_folding: hide
+---
+
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(purrr)
+red = read_csv("./data/Red.csv")
+rose = read_csv("./data/Rose.csv")
+spark = read_csv("./data/Sparkling.csv")
+varieties = read_csv("./data/Varieties.csv")
+white = read_csv("./data/White.csv")
+```
+
+We got our source data from https://www.kaggle.com/datasets/budnyak/wine-rating-and-price/code. Orginally, the source data contains five individual csv files, including: `Red.csv`, `Rose.csv`, `Sparkling.csv`, `Varieties.csv`, `White.csv`. 
+
+- The  **`Red.csv`** datasets has **`r nrow(red)`** rows and **`r ncol(red)`** columns. There are a total of **`r ncol(red)`** variables. 
+
+- The  **`Sparkling.csv`** datasets has **`r nrow(spark)`** rows and **`r ncol(spark)`** columns. There are a total of **`r ncol(spark)`** variables.
+
+- The  **`Varieties.csv`** datasets has **`r nrow(varieties)`** rows and **`r ncol(varieties)`** columns. There are a total of **`r ncol(varieties)`** variables.
+
+- The  **`White.csv`** datasets has **`r nrow(white)`** rows and **`r ncol(white)`** columns. There are a total of **`r ncol(white)`** variables.
+
+An example dataset `Red.csv` are loaded below for indication. We filtered out `Vairetis.csv` because the content is not consistent with the other files. We found that the remaining files have the same variables,so our goal is to merge them into one dataset.
+
+```{r}
+head(red, 10) |> 
+  knitr::kable(digits = 3) |> 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"), font_size = 12) |> 
+  kableExtra::scroll_box(width = "100%", height = "300px")
+```
+
+
+## Data Cleaning
+```{r, message=FALSE}
+categories = list.files(path = "./data", full.names = TRUE)
+files_data = map(categories, read_csv)
+nested_file = tibble(categories, files_data)
+wine_rating = unnest(nested_file, cols = c(files_data))
+wine_rating = 
+  wine_rating |> 
+  janitor::clean_names() |> 
+  mutate(categories = str_extract(categories, "[A-Z][a-z]+")) |> 
+  select(-variety)
+write_csv(wine_rating, file = "wine_rating.csv")
+```
+
+When attempting to merge the four datasets, we encountered an initial divergence in our approach. We employed two distinct methods to bind the datasets: one involved using a left join, while the other entailed combining the data using the `map` function. Both methods successfully merged the four datasets into a comprehensive dataset encompassing four wine categories. However, during our utilization of the left join method, we encountered issues such as the omission of category names and the development of complex code. Consequently, we concluded that employing the `map` function would be a more suitable approach for consolidating all the data.
+
+```{r}
+head(wine_rating, 10) |> 
+  knitr::kable(digits = 3) |> 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"), font_size = 12) |> 
+  kableExtra::scroll_box(width = "100%", height = "300px")
+```
+
+The resulting **`wine_rating`** datasets has **`r nrow(wine_rating)`** rows and **`r ncol(wine_rating)`** columns. There are a total of **`r ncol(wine_rating)`** variables. The description is listed below:
+
+- `categories`: Four types of the wine
+
+- `name`: Name of each wine
+
+- `country`: Production country of the wine
+
+- `region`: Production place of the wine
+
+- `winery`: The production winery or vineyards
+
+- `rating`: The score each wine got from consumer
+
+- `number_of_ratings`: Quantity of rating
+
+- `price`: The selling price of each wine
+
+- `year`: Production year
+
+
+
+

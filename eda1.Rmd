@@ -1,0 +1,73 @@
+---
+title: "Visualization: Part I"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_float: true
+---
+
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(plotly)
+
+wine_rating = read_csv("./wine_rating.csv")
+```
+
+## Objectives
+We started to analyze the dataset from multiple aspects: wine price, wine rating, wine type, and winery geographical region. Initially, we focusing on numbers of different wine categories and are interested in distribution of price and rating verses categories. To dive deeper, we then visualize the wine price and ratings distribution in the global geographic region.
+
+## Numbers within Wine Types
+
+```{r}
+wine_rating |> 
+  filter(categories != "Varieties") |> 
+  group_by(categories) |> 
+  summarise(number = n()) |> 
+  knitr::kable()
+```
+
+## Distribution of wine type verses price
+
+A box plot of the wine prices for each category is produced in this section. Additionally Wine prices are plotted on the y-axis, while wine genres are plotted on the x-axis. The color of each box plot is determined by the category. We have the following conclusions based on the plot we created.
+
+```{r}
+wine_rating |> 
+  plot_ly(y = ~price, x= ~categories, color = ~ categories, type = "box", colors = "viridis") |> 
+  layout(yaxis = list(range = c(0, 1500),dtick = 50))
+```
+
+* Red Wines: The cost of red wines varies greatly, with several outliers suggesting that some are far more expensive than others. The priciest bottle of red wine may cost up to $3417. And over $1000, there are plenty of high-end possibilities. Considering that the highest-priced wines have a median price of $18.2, red wine can typically be afforded, even when there are premium selections.
+
+* Rosé Wines: The price distribution of rosé wines is more centered and has fewer outliers. This suggests that there are less expensive outliers and more consistent pricing for rosé wines.
+
+* Sparkling Wines: There are a few outliers in the moderate range of pricing for sparkling wines. Given that the median price of 19.45 is greater than that of red and rosé wines, it is possible that sparkling wines are typically seen as a more upscale choice.
+
+* White Wines: With a wide price range and a few outliers, white wines follow a pattern akin to that of red wines. However, the median price of 13.15 is less than that of red wines, suggesting that the typical price of white wines may be lower.
+
+## Distribution of wine type verses rating
+
+Second, we make a box plot that, like the pricing plot, shows the distribution of ratings across several wine categories. The rating of the wines is shown on the y-axis in this case. Given that wine ratings usually range from 0 to 5, the y-axis range is set at 0 to 5. There are 0.2 intervals between each tick mark. 
+
+```{r}
+wine_rating |> 
+  plot_ly(y = ~rating, x= ~categories, color = ~ categories, type = "box", colors = "viridis") |> 
+  layout(yaxis = list(range = c(0, 5), dtick = 0.2))
+```
+
+The overall distributions of ratings for various wines don't differ significantly. However, we may still draw some conclusions from the plot we created.
+
+* Red Wines: The highest median grade is found in red wines. In comparison to other categories, red wines have a lower median rating and a somewhat broad rating distribution. A few low outliers might mean that certain red wines are not as well regarded as others.
+
+* Rosé Wines: The interquartile range (IQR) of rosé wines is smaller, indicating a higher degree of consistency in evaluations. 
+
+* Sparkling Wines: The narrow IQR and lack of notable outliers in sparkling wines suggest a uniform ranking throughout the category. The high median rating may indicate that quality is usually viewed favorably.
+
+* White Wines: White wines are distributed in a manner similar to that of red wines. The IQR of white wines is modest. Overall, the evaluations seem to indicate that white wines are well rated, with a few exceptions at the lower end.
