@@ -15,12 +15,43 @@ output:
 }
 </style>
 
+```{r setup, include=FALSE}
+library(tidyverse)
+library(purrr)
+library(viridis)
+library(gridExtra)
+library(ggpubr)
+library(plotly)
+
+rm(list=ls())
+knitr::opts_chunk$set(
+echo = TRUE,
+warning = FALSE,
+message = FALSE,
+fig.width = 8,
+fig.height = 6,
+out.width = "90%")
+theme_set(theme_pubr() + theme(
+  legend.position = "right"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis",
+  scipen = 999)
+
+scale_colour_discrete = scale_colour_viridis_d(option = "plasma")
+scale_color_continuous = scale_colour_viridis_c(option = "plasma")
+scale_fill_discrete = scale_fill_viridis_d(option = "plasma")
+
+wine_rating = read_csv("./wine_rating.csv")
+```
+
 # Introduction
 
-## The Wine Market's Complexity
 The wine market is a dynamic, diversified sector of the economy where a number of factors affect how prices are formed. Historically, wine quality—which is frequently expressed in ratings—has been seen by both producers and customers as the main factor influencing pricing. But according to studies on consumer behavior and current market trends, wine pricing is significantly more intricate.
 
 # Motivation
+
 Vivino.com is a popular website for wine lovers to buy quality wine. Also, Vivino.com's information on wine varietals, pricing, and ratings offers a rare chance to investigate the complex relationship between wine attributes and consumer views. Then we found a dataset scraped from Vivino.com. Motivated by a common love of wine among our enthusiast community, we want to explore the connection between wine costs and characteristics of grape varietals, origin areas, and overall scores. In order to shed light on the variables that affect how valuable and high-quality wines are viewed, this study looks for possible trends, preferences, and subtleties in the wine industry. With this study, we hope to:
 - Examine the relationship between wine prices and the kind of grapes included in the dataset.
 
@@ -29,9 +60,11 @@ Vivino.com is a popular website for wine lovers to buy quality wine. Also, Vivin
 - To investigate if higher-rated wines often fetch higher prices and the overall effect of wine ratings on their market worth.
 
 # Related Work
+
 When seeking a wine of excellent quality and taste, we, as four wine enthusiasts, often rely on certain websites as points of reference. One such website that inspired us is Wine Spectator (https://www.winespectator.com/dailypicks) to go deeper into the analysis of wine rating and prices. This website provides valuable information regarding the ranking, flavor profile, and rating of various wines. Nonetheless, it is essential to acknowledge that these comments may not always be entirely accurate. As enthusiasts of wine, we have chosen to conduct a date driven analysis to gain our perspective when making wine selections. This website also inspired us to make a similar wine evaluation website based on the data we have to help more people while selecting the perfect wine.
 
 # Initial Questions
+
 - Highest Rated Wines Across Categories: Which type of wine, among the five major categories you're considering, has the highest overall ratings? Which year produces the most welcoming (higher rating) wine within five different categories? 
 
 - Most Welcoming Wine Valleys: Which wine valley is known for producing the most welcoming wines? 
@@ -47,15 +80,11 @@ Within countries, which regions produce the most expensive wines?
 
 # Data
 
-```{r}
-library(tidyverse)
-library(purrr)
-wine_rating = read_csv("./wine_rating.csv")
-```
 We got our source data from https://www.kaggle.com/datasets/budnyak/wine-rating-and-price/code. Orginally, the source data contains five individual csv files, including Red.csv, Rose.csv, Sparkling.csv, Varieties.csv, White.csv. We filtered out Vairetis.csv because the content is not consistent with the other files. We found that the remaining files have the same variables,so we merge them into one dataset.
 
 
 ## Clean and merge the data
+
 ```{r}
 categories = list.files(path = "./data", full.names = TRUE)
 files_data = map(categories, read_csv)
@@ -99,36 +128,6 @@ The resulting **`wine_rating`** datasets has **`r nrow(wine_rating)`** rows and 
 - `year`: Production year
 
 # Exploratory Data Analysis
-```{r setup, include=FALSE}
-rm(list=ls())
-knitr::opts_chunk$set(
-echo = TRUE,
-warning = FALSE,
-message = FALSE,
-fig.width = 8,
-fig.height = 6,
-out.width = "90%")
-library(tidyverse)
-library(viridis)
-library(gridExtra)
-library(ggpubr)
-library(plotly)
-theme_set(theme_pubr() + theme(
-  legend.position = "right"))
-
-options(
-  ggplot2.continuous.colour = "viridis",
-  ggplot2.continuous.fill = "viridis",
-  scipen = 999)
-
-scale_colour_discrete = scale_colour_viridis_d(option = "plasma")
-scale_color_continuous = scale_colour_viridis_c(option = "plasma")
-scale_fill_discrete = scale_fill_viridis_d(option = "plasma")
-```
-
-```{r loading_dataset}
-wine_rating = read_csv("./wine_rating.csv")
-```
 
 We started to analyze the dataset from two aspects: wine price versus geographic region and wine rating versus geographic region. To first visualize the wine price distribution in the global geographic region, we created a world map illustrating the average wine price of each countries inside the dataset. We then investigated the top 10 most expensive countries and show it in a world map as well.
 
@@ -172,6 +171,7 @@ fig_country_all
 This world map visualizes average wine prices by country, offering a overview of the global wine market from the dataset. The data reflects average wine prices across all the different countries in the dataset. Each country is shaded according to its average wine price, with darker shades indicating lower average prices, while lighter shades represent higher prices. Notably, the United Kingdom stands out with the lightest shades, signifying the highest average wine price on the map, while Mexico is represented with the darkest shades, indicating the lowest average price.
 
 ### World Map of The 10 Most Expensive Country
+
 ```{r}
 price_country <- 
   price_country |>
@@ -211,6 +211,7 @@ fig_country_10map
 This map visually presents the top 10 countries with the highest average wine prices. The countries are ranked based on their average wine prices, with darker shades indicating lower prices. Each country is labeled with its rank, name, and the corresponding average price in US dollars. Based on this map, the top three most expensive countries are the UK, France, and the US.
 
 ## Wine Price by Region
+
 ```{r}
 price_region=
   wine_rating |>
@@ -221,6 +222,7 @@ price_region=
 ```
 
 ### Bar Plot of The 10 Most Expensive Region 
+
 ```{r,warning=FALSE}
 top_10_regions <- head(price_region, 10)
 
@@ -249,6 +251,7 @@ fig_region10
 This bar chart displays the top 10 regions with the highest average wine prices. Each bar on the x-axis represents a region, sorted in descending order of average price, and its length corresponds to the average wine price on the y-axis. Bars are color-coded by countries, and the legend enhances context by identifying them. France prominently leads the list of the most expensive areas, with eight of the top 10 regions located in the it. 
 
 ## Wine Price by Winery
+
 ```{r}
 price_winery=
   wine_rating |>
@@ -259,6 +262,7 @@ price_winery=
 ```
 
 ### Distribution for Top 10 Winery
+
 ```{r}
 price_winery_dis <- wine_rating %>%
   group_by(country, region, winery) %>%
@@ -300,6 +304,7 @@ boxplot_plotly
 This boxplot illustrates the price distribution of the top 10 wineries, with each box color-coded by region. Each box represents a winery, featuring a median line indicating the central price, box bounds denoting the interquartile range, and whiskers showing the price spread. However, some wineries appear as short lines, which might be due to limited data points or homogeneous prices in these wineries.
 
 ## Wine Price in the United States
+
 ```{r}
 price_us=
   wine_rating |>
@@ -355,6 +360,7 @@ wine_rating =
 ```
 
 ## Relationship between Wine prices and rating for different categories.
+
 This scatter plot shows the relationship between wine prices and ratings across different categories.
 ```{r}
 # Plotly scatter plot with loess smoothing
@@ -366,7 +372,8 @@ plot_ly(wine_rating, x = ~price, y = ~rating, type = 'scatter', mode = 'markers'
 ```
 Based on this graph, points are colored by category, including red, rosé, sparkling, and white wines. The graph suggests that there is a wide range of prices within each wine category, and there doesn't appear strong correlation between price and rating. Some high-rated wines are available at moderate prices, while there are also expensive wines with lower ratings. However, we can see that for the red wine, we could see the trend that the red wine with higher price have higher rating. 
 
-## Within countries, highest rating regions  
+## Within countries, highest rating regions
+
 ```{r}
 # #Within Countries, highest rating regions
 wine_rating_summary <- wine_rating %>%
@@ -391,7 +398,9 @@ The graph only shows the regions from which their wines received more than 2000 
 This bar chart compares the average wine rating by region within various countries. Regions are ordered by their mean rating. This visualization indicates that certain regions consistently produce higher-rated wines, but it also reflects the diversity within countries. For instance, wines from regions like Napa Valley, Barolo, and Bordeaux may have higher average ratings compared to other regions. Italy by far tops the list of the countries with the highest rated wine producing regions. Out of the top 27 regions in terms of mean-rating, almost half (13) of the wine producing regions are from Italy.
 
 ## Rating analysis by category in a specific region (e.g., Napa Valley):
+
 For the wines, the most famous winery we may know is Napa Vally, Napa County and California. To have a more general view for the analysis, we could narriow down the analysis to the ratings of individual regions and the wines that they produce
+
 ```{r}
 # Data Preparation
 rating_analysis_data <- wine_rating |>
@@ -422,7 +431,8 @@ This heatmap shows the average ratings of different wine categories specifically
 
 Based on previous visualization we got, we could analyze the most welcoming wine valleys.
 
-## Most Welcoming Wine Valleys  
+## Most Welcoming Wine Valleys
+
 ```{r}
 # Filter data if needed
 welcoming_valleys_data <- wine_rating |>
@@ -509,6 +519,7 @@ The overall distributions of ratings for various wines don't differ significantl
 # Statistical Analysis
 
 ## Log transformed price verses rating
+
 ```{r}
 ggplot_rp_tf = wine_rating |> 
   ggplot(aes(x = log(price), y = rating, color = year)) +
@@ -519,6 +530,7 @@ ggplotly(ggplot_rp_tf)
 Already examined the linear relationship scatter plot of the wine rating verses wine price, we noticed that it's hardly to be described as a linear relationship based on the distribution of the points. So, we performed logarithm transformation to the price variable and plotted a scatter plot again. The result is somehow more satisfied compared with previous result. The point are more clustered and formed a positive-linear liked relation. To perform more accurate linear model, we thought other variables might also get involved in this regression model. It is more likely to be a multiple expanded linear regression.
 
 ## Fitting linear model to rating, price, and year(residual plot)
+
 ```{r}
 lm_rp = lm(rating ~ log(price) + year, data = wine_rating)
 
@@ -538,6 +550,7 @@ ggplotly(resid_rp)
 From the plot, it's pretty obvious that the dataset needs more improvement for the model to fit better since all the point are not evenly spread acorss the axis. They are more condensed as the log transformed price increases. But, with such results, we cannot make absolute decision about the model we built is false one. To further test our model, we performed a simulation.
 
 ## Performing Bootstrap for above model for further test
+
 ```{r}
 bootstrap_rp = wine_rating |> 
   modelr::bootstrap(n = 1000) |> 
@@ -554,12 +567,25 @@ ggplotly(bootstrap_rp)
 From the above bootstrap model, we obtained a perfect normal distribution of our frequencies of estimation. This helps proved that somehow our model is accurate for no extreme outliers or other strange data points occurred. Also, the distribution of density curve is surprisingly normal distributed, with no skewness and shoulders. This provide positive evidence for our linear regression model. Still, more tests are needed for the model to be exactly accurate. 
 
 # Discussion
+
 ## Findings and Conclusion
+
 ### Ratings versus regions
+
 Based on the analysis of the relationship between ratings and regions, we found that for each region, regardless of the price, there are wines with high ratings. However, the overall trend of ratings shows that wines with high ratings are mainly distributed in Italy and the United States. The proportion of high-rated wines is somewhat larger in Italy. Among them, the Italian winery Bolgheri Sassicaia is also shown in the bubble graph as having the highest prices and ratings. In the United States, the areas with higher ratings are consistent with our findings, mainly located in Napa Valley, Napa County, California. In summary, the relationship between ratings and regions is evident in specific areas, but due to each person’s unique criteria for judging wines, every region has wines that are highly rated.
 
 ### Price versus regions
+
 In terms of the relationship between price and region, the UK has the most expensive average wine prices, while Mexico tends to offer more budget-friendly options. At the regional level, France, Italy, and the US stand out as the most expensive regions for wine production. For customers choosing wines from the world's priciest regions, France proves to be an excellent option, boasting the highest number of expensive wine-producing areas. On the winery level, Pétrus, based in France, takes the lead as the most expensive. Within the US, wine prices generally fall within the range of 0 to 20, making them reasonably affordable for the majority of consumers.
 
+### Statistical Model Analysis
+
+Gathering all the results obtained from the statistical model analysis section. We cannot easily making decision that the model we applied are the best model for our dataset. The linear model regression we applied have different results from different test. For our residual plot and p-value from the `groom::tidy()` table. It is hard to conclude the model applied is reliable. But for our bootstrap simulation, the linear model is somehow fitting. The curve we produced is perfectly normal, meaning that the simulation is successful. The fitting model is somehow successful. In sum, the dataset we find need some improvement or other supportive dataset are needed for further examination of the model. 
+
 ## Limitation, Insight, Further Improvements
+
 The dataset has a small scale after we filtered out some data under conditions. For example, while we do the analysis for the top 10 expensive countries for wine and the most welcoming wine, the sample size of qualified data is small, which may lead to the bias. 
+
+Customer Selection: Value-conscious consumers may go toward red or rosé wines, which provide more reasonably priced selections with a greater variety of ratings.
+
+Perception of Quality: According to the ratings, people believe red and sparkling wines to be of greater quality. This perception may be influenced by the way the wines are made, how the market is regarded, or by other elements that are hidden from view in the plots. Additionally, if you'd like to sample some premium alternatives, red wines will the best options.
