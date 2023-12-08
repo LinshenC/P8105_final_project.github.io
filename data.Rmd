@@ -15,9 +15,23 @@ output:
 library(tidyverse)
 library(purrr)
 red = read_csv("./data/Red.csv")
+rose = read_csv("./data/Rose.csv")
+spark = read_csv("./data/Sparkling.csv")
+varieties = read_csv("./data/Varieties.csv")
+white = read_csv("./data/White.csv")
 ```
 
-We got our source data from https://www.kaggle.com/datasets/budnyak/wine-rating-and-price/code. Orginally, the source data contains five individual csv files, including `Red.csv`, `Rose.csv`, `Sparkling.csv`, `Varieties.csv`, `White.csv`. An example dataset `Red.csv` are loaded below for indication. We filtered out Vairetis.csv because the content is not consistent with the other files. We found that the remaining files have the same variables,so our goal is to merge them into one dataset.
+We got our source data from https://www.kaggle.com/datasets/budnyak/wine-rating-and-price/code. Orginally, the source data contains five individual csv files, including: `Red.csv`, `Rose.csv`, `Sparkling.csv`, `Varieties.csv`, `White.csv`. 
+
+- The  **`Red.csv`** datasets has **`r nrow(red)`** rows and **`r ncol(red)`** columns. There are a total of **`r ncol(red)`** variables. 
+
+- The  **`Sparkling.csv`** datasets has **`r nrow(spark)`** rows and **`r ncol(spark)`** columns. There are a total of **`r ncol(spark)`** variables.
+
+- The  **`Varieties.csv`** datasets has **`r nrow(varieties)`** rows and **`r ncol(varieties)`** columns. There are a total of **`r ncol(varieties)`** variables.
+
+- The  **`White.csv`** datasets has **`r nrow(white)`** rows and **`r ncol(white)`** columns. There are a total of **`r ncol(white)`** variables.
+
+An example dataset `Red.csv` are loaded below for indication. We filtered out `Vairetis.csv` because the content is not consistent with the other files. We found that the remaining files have the same variables,so our goal is to merge them into one dataset.
 
 ```{r}
 head(red, 10) |> 

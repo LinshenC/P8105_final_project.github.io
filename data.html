@@ -324,13 +324,29 @@ $(document).ready(function () {
 <p>We got our source data from <a
 href="https://www.kaggle.com/datasets/budnyak/wine-rating-and-price/code"
 class="uri">https://www.kaggle.com/datasets/budnyak/wine-rating-and-price/code</a>.
-Orginally, the source data contains five individual csv files, including
-<code>Red.csv</code>, <code>Rose.csv</code>, <code>Sparkling.csv</code>,
-<code>Varieties.csv</code>, <code>White.csv</code>. An example dataset
-<code>Red.csv</code> are loaded below for indication. We filtered out
-Vairetis.csv because the content is not consistent with the other files.
-We found that the remaining files have the same variables,so our goal is
-to merge them into one dataset.</p>
+Orginally, the source data contains five individual csv files,
+including: <code>Red.csv</code>, <code>Rose.csv</code>,
+<code>Sparkling.csv</code>, <code>Varieties.csv</code>,
+<code>White.csv</code>.</p>
+<ul>
+<li><p>The <strong><code>Red.csv</code></strong> datasets has
+<strong>8666</strong> rows and <strong>8</strong> columns. There are a
+total of <strong>8</strong> variables.</p></li>
+<li><p>The <strong><code>Sparkling.csv</code></strong> datasets has
+<strong>1007</strong> rows and <strong>8</strong> columns. There are a
+total of <strong>8</strong> variables.</p></li>
+<li><p>The <strong><code>Varieties.csv</code></strong> datasets has
+<strong>1512</strong> rows and <strong>1</strong> columns. There are a
+total of <strong>1</strong> variables.</p></li>
+<li><p>The <strong><code>White.csv</code></strong> datasets has
+<strong>3764</strong> rows and <strong>8</strong> columns. There are a
+total of <strong>8</strong> variables.</p></li>
+</ul>
+<p>An example dataset <code>Red.csv</code> are loaded below for
+indication. We filtered out <code>Vairetis.csv</code> because the
+content is not consistent with the other files. We found that the
+remaining files have the same variables,so our goal is to merge them
+into one dataset.</p>
 <pre class="r"><code>head(red, 10) |&gt; 
   knitr::kable(digits = 3) |&gt; 
   kableExtra::kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;), font_size = 12) |&gt; 
