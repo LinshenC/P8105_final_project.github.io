@@ -2,6 +2,11 @@
 title: "Disscusion and Findings"
 ---
 
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
 
 ### Price , rating VS wine type (Categories)
 
@@ -16,10 +21,16 @@ Based on the analysis of the relationship between ratings and regions, we found 
 
 
 ### Price versus regions
+
 In terms of the relationship between price and region, the UK has the most expensive average wine prices, while Mexico tends to offer more budget-friendly options. At the regional level, France, Italy, and the US stand out as the most expensive regions for wine production. For customers choosing wines from the world's priciest regions, France proves to be an excellent option, boasting the highest number of expensive wine-producing areas. On the winery level, Pétrus, based in France, takes the lead as the most expensive. Within the US, wine prices generally fall within the range of 0 to 20, making them reasonably affordable for the majority of consumers.
 
 
+### Statistical Model Analysis
+
+Gathering all the results obtained from the statistical model analysis section. We cannot easily making decision that the model we applied are the best model for our dataset. The linear model regression we applied have different results from different test. For our residual plot and p-value from the `groom::tidy()` table. It is hard to conclude the model applied is reliable. But for our bootstrap simulation, the linear model is somehow fitting. The curve we produced is perfectly normal, meaning that the simulation is successful. The fitting model is somehow successful. In sum, the dataset we find need some improvement or other supportive dataset are needed for further examination of the model. 
+
 ### Limitation, Insight, Further Improvements
+
 The dataset has a small scale after we filtered out some data under conditions. For example, while we do the analysis for the top 10 expensive countries for wine and the most welcoming wine, the sample size of qualified data is small, which may lead to the bias.
 Customer Selection: Value-conscious consumers may go toward red or rosé wines, which provide more reasonably priced selections with a greater variety of ratings.
 Perception of Quality: According to the ratings, people believe red and sparkling wines to be of greater quality. This perception may be influenced by the way the wines are made, how the market is regarded, or by other elements that are hidden from view in the plots. Additionally, if you'd like to sample some premium alternatives, red wines will the best options.
