@@ -1,30 +1,31 @@
 ---
 title: "Evaluation of Wine from Multiple Perspectives"
 ---
-<img src="images/wine.jpg">
 
 <style type="text/css">
 h1.title {
   font-size: 38px;
   text-align: center;
 }
-h3.title {
-  font-size: 38px;
+h2 {
+  font-size: 32px;
   text-align: center;
 }
-
   body{
   font-size: 12pt;
 }
 </style>
 
+<img src="images/wine.jpg">
+
+<br />
 
 ## Background
 
-* The Wine Market's Complexity
+**The Wine Market's Complexity**
 
-The wine market is a complex and varied area of the economy, where several variables influence the formation of pricing. Traditionally, the primary determinant of price in the wine industry has been the perceived quality of the wine, sometimes measured by ratings, as perceived by both producers and purchasers. However, based on research on consumer behavior and prevailing market trends, the price of wine is much more complex.
+* The wine market is a complex and varied area of the economy, where several variables influence the formation of pricing. Traditionally, the primary determinant of price in the wine industry has been the perceived quality of the wine, sometimes measured by ratings, as perceived by both producers and purchasers. However, based on research on consumer behavior and prevailing market trends, the price of wine is much more complex.
 
-* Above and Beyond Quality Ratings
+**Above and Beyond Quality Ratings**
 
-Although quality ratings have a considerable impact on wine pricing, several other factors are also quite important. Pricing may be greatly impacted by a number of factors, including vintage, manufacturing area, and brand repute.
+* Although quality ratings have a considerable impact on wine pricing, several other factors are also quite important. Pricing may be greatly impacted by a number of factors, including vintage, manufacturing area, and brand repute.
