@@ -518,6 +518,71 @@ The overall distributions of ratings for various wines don't differ significantl
 
 # Statistical Analysis
 
+## T-test to compare mean price among four categories.
+
+To better study the average prices of the various wine categories in our dataset Pairwise Welch Two Sample t-tests were used in your analytical method. We think the Welch t-test is a reliable option for real-world since it is primarily used in situations when the variances of the two groups being compared may not be identical.
+
+```{r}
+# Filter the data for the four categories
+red_wines <- subset(wine_rating, categories == "Red")
+white_wines <- subset(wine_rating, categories == "White")
+rose_wines <- subset(wine_rating, categories == "Rose")
+sparkling_wines <- subset(wine_rating, categories == "Sparkling")
+
+# Perform T-tests &  Print results
+# Comparing Red and White
+t_test_red_white <- t.test(red_wines$price, white_wines$price)
+print(t_test_red_white)
+```
+
+A very significant difference in the mean prices of red and white wines is shown by the Welch Two Sample t-test, with a t-statistic of 17.771 and a p-value less than 2.2e-16. This test has 12155 degrees of freedom, which suggests a sizable sample size. The confidence interval, which spans from 16.48147 to 20.56802, indicates that red wines regularly cost much more than white wines. The average cost of red wines is around 39.15, while the average cost of white wines is about 20.62. This significant price differential between the two groups reflects their different market positioning, with red wines perhaps being seen as more desired or premium in specific situations.
+
+
+### Comparing Red and Rose
+
+```{r}
+t_test_red_rose <- t.test(red_wines$price, rose_wines$price)
+print(t_test_red_rose)
+```
+
+The Welch t-test results in a t-statistic of 21.878 with a p-value less than 2.2e-16 when red and rose wines are compared, suggesting an even more marked difference in mean pricing than there is between red and white wines. Here, the sample sizes and variances are reflected in the 1922.4 degrees of freedom. Red wines are much more costly than rose wines, as seen by the confidence interval, which spans from 24.23314 to 29.00550. The mean prices of red wines are 39.15, while those of rose wines are 12.53. This finding implies that there is a distinct market distinction between these groups, with red wines being priced more.
+
+### Comparing Red and Sparkling
+
+```{r}
+t_test_red_sparkling <- t.test(red_wines$price, sparkling_wines$price)
+print(t_test_red_sparkling)
+```
+
+The t-statistic for the comparison of red and sparkling wines is 2.4847, with a p-value of 0.01305, suggesting a statistically significant difference that is not as strong as it was in the earlier comparisons.  The smaller confidence range, which falls between 7.7685347 and 0.9147425, indicates a slight variation in mean prices. The mean price of red wines is roughly 39.15, which is somewhat more than the mean price of sparkling wines, which is approximately 34.80. A tighter pricing range is seen in this comparison between the two groups, maybe as a result of comparable manufacturing costs or overlapping market sectors.
+
+### Comparing White and Rose
+
+```{r}
+t_test_white_rose <- t.test(white_wines$price, rose_wines$price)
+print(t_test_white_rose)
+```
+
+A considerable price difference between white and rose wines is revealed by the t-test, which has a t-statistic of 8.5229 and a p-value of less than 2.2e-16. With a mean price of 20.62, white wines are considerably more costly than rose wines, which have a mean price of 12.53. This is evident from the confidence interval, which spans from 6.230128 to 9.959023. This discrepancy suggests that these two wine varieties have different market positionings as well as potential variations in manufacturing processes or customer perceptions.
+
+### Comparing White and Sparkling
+
+```{r}
+t_test_white_sparkling <- t.test(white_wines$price, sparkling_wines$price)
+print(t_test_white_sparkling)
+```
+
+The Welch t-test reveals a t-statistic of -9.0158 and a p-value less than 2.2e-16 when comparing the mean prices of white and sparkling wines, suggesting a significant difference. According to the negative t-statistic, sparkling wines cost more than white wines. The average cost of sparkling wines is around 34.80, which is much more than the average cost of white wines, which is 20.62. This finding emphasizes sparkling wines' premium positioning, which may be related to their connotation of luxury and festivities.
+
+### Comparing Rose and Sparkling
+
+```{r}
+t_test_rose_sparkling <- t.test(rose_wines$price, sparkling_wines$price)
+print(t_test_rose_sparkling)
+```
+
+With a t-statistic of -13.153 and a p-value smaller than 2.2e-16, the t-test comparing rose and sparkling wines reveals a very significant difference in their mean costs. Sparkling wines, with a mean price of 34.80, are significantly more costly than rose wines, with a mean price of 12.53, according to the negative t-statistic and the confidence interval spanning from -25.60013 to -18.95523. The notable disparity in price between these two wine categories might perhaps be attributed to variations in manufacturing complexity, brand positioning, or customer preferences.
+
 ## Log transformed price verses rating
 
 ```{r}
