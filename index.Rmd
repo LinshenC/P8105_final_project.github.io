@@ -4,10 +4,20 @@ title: "Evaluation of Wine from Multiple Perspectives"
 <img src="images/wine.jpg">
 
 <style type="text/css">
+h1.title {
+  font-size: 38px;
+  text-align: center;
+}
+h3.title {
+  font-size: 38px;
+  text-align: center;
+}
+
   body{
   font-size: 12pt;
 }
 </style>
+
 
 ## Background
 
