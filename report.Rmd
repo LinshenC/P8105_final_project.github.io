@@ -23,21 +23,7 @@ library(gridExtra)
 library(ggpubr)
 library(plotly)
 
-rm(list=ls())
-knitr::opts_chunk$set(
-echo = TRUE,
-warning = FALSE,
-message = FALSE,
-fig.width = 8,
-fig.height = 6,
-out.width = "90%")
-theme_set(theme_pubr() + theme(
-  legend.position = "right"))
-
-options(
-  ggplot2.continuous.colour = "viridis",
-  ggplot2.continuous.fill = "viridis",
-  scipen = 999)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 scale_colour_discrete = scale_colour_viridis_d(option = "plasma")
 scale_color_continuous = scale_colour_viridis_c(option = "plasma")
@@ -365,7 +351,7 @@ wine_summary <- wine_rating %>%
             n = n()) %>%
   ungroup()
 #remove missing values and any duplicates
-wine_rating = 
+wine_cleaned = 
   wine_rating |>
   na.omit() |>
   distinct() |> 
@@ -379,7 +365,7 @@ This scatter plot shows the relationship between wine prices and ratings across 
 
 ```{r}
 # Plotly scatter plot with loess smoothing
-plot_ly(wine_rating, x = ~price, y = ~rating, type = 'scatter', mode = 'markers', color = ~categories) %>%
+plot_ly(wine_cleaned, x = ~price, y = ~rating, type = 'scatter', mode = 'markers', color = ~categories) %>%
   layout(title = "Average wine price by category and production region",
          xaxis = list(title = "Price"),
          yaxis = list(title = "Rating"))
@@ -392,7 +378,7 @@ Based on this graph, points are colored by category, including red, rosé, spark
 
 ```{r}
 # #Within Countries, highest rating regions
-wine_rating_summary <- wine_rating %>%
+wine_rating_summary <- wine_cleaned %>%
   group_by(country, region) %>%
   filter(number_of_ratings > 2000) %>%
   summarise(mean_rating = mean(rating),
@@ -419,7 +405,7 @@ For the wines, the most famous winery we may know is Napa Vally, Napa County and
 
 ```{r}
 # Data Preparation
-rating_analysis_data <- wine_rating |>
+rating_analysis_data <- wine_cleaned |>
   filter(region %in% c("Napa Valley", "Napa County", "California")) |>
   filter(categories != "Rose") |> 
   group_by(region, categories) |>
@@ -451,7 +437,7 @@ Based on previous visualization we got, we could analyze the most welcoming wine
 
 ```{r}
 # Filter data if needed
-welcoming_valleys_data <- wine_rating |>
+welcoming_valleys_data <- wine_cleaned |>
   filter(number_of_ratings > 2000) |>
   group_by(region, categories) |>
   summarise(mean_rating = mean(rating), 
@@ -491,7 +477,8 @@ all_wine_cate = wine_rating |>
   filter(categories != "Varieties") |> 
   group_by(categories) |> 
   summarise(number = n())
-all_wine_cate
+knitr::kable(all_wine_cate) |> 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"), font_size = 12)
 ```
 
 The table lists the number of wine entries under the categories of Red, Rose, Sparkling, and White. The sample sizes are noticeably out of balance. With 8,666 points, red wine has the highest count, indicating a wider variety or higher popularity; rose wine has the lowest, at 397, suggesting a smaller market presence or less variety in offerings. White wines and sparkling wines have moderate counts of 3,764 and 1,007, respectively, indicating a reasonable but limited variety compared to red wines. This distribution may represent consumer preferences, market trends, or data collection techniques, and it suggests potential biases for statistical analysis because of the wide range of sample sizes.
@@ -628,7 +615,9 @@ Already examined the linear relationship scatter plot of the wine rating verses 
 lm_rp = lm(rating ~ log(price) + year, data = wine_rating)
 
 broom::tidy(lm_rp) |> 
-  knitr::kable(digits = 3)
+  knitr::kable(digits = 3) |> 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"), font_size = 12) |> 
+  kableExtra::scroll_box(width = "100%", height = "300px")
 ```
 
 With the thoughts in mind, we performed the MLR with wine rating, log transformed wine price, and corresponding year of the wine production. The result are shown in the above table. Things are getting a little bit tricky. We noticed that `p.value` of log transformed price is nearly zero, meaning there is strong linear relation between it and the dependent variable. But, most of the years have a `p.value` that is much greater than the significant level. More justification method are needed to help provide the evidence to judge the true relation between year and rating. So, we plotted a residual plot for this linear regression model.

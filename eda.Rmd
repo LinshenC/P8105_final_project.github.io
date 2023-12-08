@@ -14,26 +14,16 @@ output:
 </style>
 
 ```{r setup, include=FALSE}
-rm(list=ls())
-knitr::opts_chunk$set(
-echo = TRUE,
-warning = FALSE,
-message = FALSE,
-fig.width = 8,
-fig.height = 6,
-out.width = "90%")
 library(tidyverse)
 library(viridis)
 library(gridExtra)
 library(ggpubr)
 library(plotly)
-theme_set(theme_pubr() + theme(
-  legend.position = "right"))
 
-options(
-  ggplot2.continuous.colour = "viridis",
-  ggplot2.continuous.fill = "viridis",
-  scipen = 999)
+knitr::opts_chunk$set(
+echo = TRUE,
+warning = FALSE,
+message = FALSE)
 
 scale_colour_discrete = scale_colour_viridis_d(option = "plasma")
 scale_color_continuous = scale_colour_viridis_c(option = "plasma")
