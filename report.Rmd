@@ -69,7 +69,8 @@ Within countries, which regions produce the most expensive wines?
 
 - The nature of the relationship: Whether it is positive (higher prices are associated with higher ratings) or negative (higher prices do not necessarily mean higher ratings).
 
-# Data
+# Data 
+### Data Sources
 
 We got our source data from https://www.kaggle.com/datasets/budnyak/wine-rating-and-price/code. Orginally, the source data contains five individual csv files, including: `Red.csv`, `Rose.csv`, `Sparkling.csv`, `Varieties.csv`, `White.csv`. 
 
@@ -90,8 +91,7 @@ head(red, 10) |>
   kableExtra::scroll_box(width = "100%", height = "300px")
 ```
 
-**Data Cleaning:**
-
+### Data Import and Cleaning
 ```{r, message=FALSE}
 categories = list.files(path = "./data", full.names = TRUE)
 files_data = map(categories, read_csv)
@@ -654,15 +654,24 @@ From the above bootstrap model, we obtained a perfect normal distribution of our
 
 In the process of exploring the relationships between wine ratings, regions, and prices, we have uncovered a series of intriguing and intricate findings, particularly in the challenging results of the statistical model analysis. We will now delve into each aspect in detail:
 
-**1. Ratings versus regions:**
+**1.Price , rating VS wine type (Categories)**
+
+First, we analyzed the relationship between price, rating and wine type. We wanna see if price and rating related different wine type. From the rating box-lot, people believe red and sparkling wines to be of greater quality. This perception may be influenced by the way the wines are made, how the market is regarded, or by other elements that are hidden from view in the plots. Additionally, if you'd like to sample some premium alternatives, red wines will the best options. Value-conscious consumers may go toward red or rosé wines, which provide more reasonably priced selections with a greater variety of ratings. 
+
+Based on box plots in this part, it's not immediately evident if price and rating within each category are directly correlated. For example, the price range of red and white wines is different, but so is their median rating. Other relationships between rating, price and other factors(region, winery) are followed including fitting a linear model in the subsequent content.
+
+
+**2. Ratings versus regions:**
 
 Based on the analysis of the relationship between ratings and regions, we found that for each region, regardless of the price, there are wines with high ratings. However, the overall trend of ratings shows that wines with high ratings are mainly distributed in Italy and the United States. The proportion of high-rated wines is somewhat larger in Italy. Among them, the Italian winery Bolgheri Sassicaia is also shown in the bubble graph as having the highest prices and ratings. In the United States, the areas with higher ratings are consistent with our findings, mainly located in Napa Valley, Napa County, California. In summary, the relationship between ratings and regions is evident in specific areas, but due to each person’s unique criteria for judging wines, every region has wines that are highly rated.
 
-**2. Price versus regions:**
+**3. Price versus regions:**
 
 In terms of the relationship between price and region, the UK has the most expensive average wine prices, while Mexico tends to offer more budget-friendly options. At the regional level, France, Italy, and the US stand out as the most expensive regions for wine production. For customers choosing wines from the world's priciest regions, France proves to be an excellent option, boasting the highest number of expensive wine-producing areas. On the winery level, Pétrus, based in France, takes the lead as the most expensive. Within the US, wine prices generally fall within the range of 0 to 20, making them reasonably affordable for the majority of consumers.
 
-**3. Statistical Model Analysis:**
+**4. Statistical Model Analysis:**
+
+To better study different price range among categories, the comprehensive analysis using Welch Two Sample t-tests across different wine categories—red, white, rose, and sparkling—reveals a nuanced pricing structure that reflects distinct market positioning. Red wines emerge as the premium category, commanding significantly higher prices than white and rose wines. This indicates a market perception of red wines as higher quality or more luxurious products, possibly due to factors like aging potential, production complexity, or consumer preferences. Sparkling wines, though closely priced to red wines, occupy a unique niche, often associated with luxury and special occasions, which justifies their higher price points compared to white and rose wines. The comparison between white and rose wines, with white wines positioned as a mid-range option, suggests a diverse consumer base where white wines serve as a versatile choice, while rose wines are seen as more affordable, everyday beverages.
 
 Gathering all the results obtained from the statistical model analysis section. We cannot easily making decision that the model we applied are the best model for our dataset. The linear model regression we applied have different results from different test. For our residual plot and p-value from the `groom::tidy()` table. It is hard to conclude the model applied is reliable. But for our bootstrap simulation, the linear model is somehow fitting. The curve we produced is perfectly normal, meaning that the simulation is successful. The fitting model is somehow successful. In sum, the dataset we find need some improvement or other supportive dataset are needed for further examination of the model. 
 

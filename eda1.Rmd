@@ -27,11 +27,12 @@ We started to analyze the dataset from multiple aspects: wine price, wine rating
 ## Numbers within Wine Types
 
 ```{r}
-wine_rating |> 
+all_wine_cate = wine_rating |> 
   filter(categories != "Varieties") |> 
   group_by(categories) |> 
-  summarise(number = n()) |> 
-  knitr::kable()
+  summarise(number = n())
+knitr::kable(all_wine_cate) |> 
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"), font_size = 12)
 ```
 
 ## Distribution of wine type verses price

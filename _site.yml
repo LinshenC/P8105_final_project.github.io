@@ -34,4 +34,4 @@ navbar:
       href: https://github.com/LinshenC/P8105_final_project.github.io
 output:
   html_document:
-   theme: sandstone
+   theme: journal
