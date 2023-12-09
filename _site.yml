@@ -20,6 +20,8 @@ navbar:
           href: model.html
     - text: "Discussion"
       href: conclusion.html
+    - icon: fa-brands fa-youtube fa-lg
+      href: https://youtu.be/nB4XY_I1uxg
     - icon: fa-envelope fa-lg
       menu:
         - text: "Wenyu Zhang"
